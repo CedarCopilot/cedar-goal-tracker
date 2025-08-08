@@ -155,9 +155,24 @@ export function useDailyGoalsState(
           const existing = nodesArr.find((n) => n.id === id);
 
           if (existing) {
-            const updated = nodesArr.map((n) =>
-              n.id === id ? { ...n, data: { ...n.data, ...partial } } : n,
-            );
+            const updated = nodesArr.map((n) => {
+              if (n.id !== id) return n;
+              // Merge todos if present in partial
+              let mergedData;
+              if (partial.todos) {
+                // Merge by id: keep existing todos not in partial, add/replace with todos from partial
+                const existingTodos = n.data.todos || [];
+                const newTodos = partial.todos || [];
+                const todosById = new Map(existingTodos.map((t) => [t.id, t]));
+                for (const t of newTodos) {
+                  todosById.set(t.id, t);
+                }
+                mergedData = { ...n.data, ...partial, todos: Array.from(todosById.values()) };
+              } else {
+                mergedData = { ...n.data, ...partial };
+              }
+              return { ...n, data: mergedData };
+            });
             setNodes(updated);
             void upsertDailyGoal({ ...existing.data, ...partial });
           } else {

@@ -19,7 +19,6 @@ export default function DailyGoalPage() {
   // At this point (after you've set up your env variables), you should be able to chat with the app.
   const [chatMode, setChatMode] = React.useState<ChatMode>('caption');
   const voice = useVoice();
-  console.log('voice.isListening', voice.isListening);
 
   const renderContent = () => (
     <ReactFlowProvider>

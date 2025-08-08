@@ -34,7 +34,7 @@ Use ONE versatile setter:
 updateGoal – args: [id: string, data: Partial<DailyGoalNodeData>]
 
 • To create a new node, pass an id that doesn't exist yet (e.g. "2025-08-08") and a full data object containing at least date and goal. The frontend will create it.
-• To modify an existing node, pass the existing id and only the fields you wish to change.
+• To modify an existing node, pass the existing id and only the fields you wish to change. However if you are modifying one field like "todos", make sure you pass the entire todos array back so you don't overwrite the existing todos.
 </available_actions>
 
 <action_handling>
